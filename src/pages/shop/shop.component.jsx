@@ -17,7 +17,6 @@ class ShopPage extends Component {
 		const { collections } = this.state;
 		return (
 			<div className="shop-page">
-				SHOP PAGE
 				{collections
 					.filter((item, idx) => idx < 4)
 					.map(({ id, ...otherCollectionProps }) => (
