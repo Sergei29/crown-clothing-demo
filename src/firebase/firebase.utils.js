@@ -30,3 +30,31 @@ export const signInWithGoogle = () => auth.signInWithPopup(provider);
 
 //export full firebase library in case if needed:
 export default firebase;
+
+// that function allows us to take user's object that we get from the auth library
+// and then store inside our database: `userAuth` - is the object that we get from auth
+// `additionalData` - the additional data object that we may need later for the signup functionality
+
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+	if (!userAuth) return; // if no user is authenticated just exit.
+	const userRef = firestore.doc(`users/${userAuth.uid}`); //check if authenticated user uid already exists in our users/ collection
+	const snapshot = await userRef.get();
+
+	// so, if that user data doesn't exist in our collection, we shall create it as a new document:
+	if (!snapshot.exists) {
+		const { displayName, email } = userAuth;
+		const createdAt = new Date();
+		try {
+			await userRef.set({
+				displayName,
+				email,
+				createdAt,
+				...additionalData,
+			});
+		} catch (error) {
+			console.log("error creating user: ", error.message);
+		}
+	}
+
+	return userRef;
+};

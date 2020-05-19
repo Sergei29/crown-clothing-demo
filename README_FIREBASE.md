@@ -1,6 +1,7 @@
-# QueryReferences and Snapshot Firebase
+## QueryReferences and Snapshot Firebase
 
 ## QueryReference and QuerySnapshot
+
 A query is a request we make to firestore to give us
 something from the database.
 Firestore returns us two types of objects: references and
