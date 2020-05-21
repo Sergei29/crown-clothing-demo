@@ -4,6 +4,8 @@ import storage from "redux-persist/lib/storage"; // <== this is the localStorage
 
 import userReducer from "./user/user.reducer";
 import cartReducer from "./cart/cart.reducer";
+import directoryReducer from "./directory/directory.reducer";
+import shopReducer from "./shop/shop.reducer";
 
 const persistConfig = {
 	key: "root", // means at what point we want to start storing our state - from the root level, in this case
@@ -14,6 +16,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
 	user: userReducer,
 	cart: cartReducer,
+	directory: directoryReducer,
+	shop: shopReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);
