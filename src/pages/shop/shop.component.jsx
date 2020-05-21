@@ -18,7 +18,7 @@ class ShopPage extends Component {
 		return (
 			<div className="shop-page">
 				{collections
-					.filter((item, idx) => idx < 4)
+					.filter((item, idx) => idx < 5)
 					.map(({ id, ...otherCollectionProps }) => (
 						<CollectionPreview key={id} {...otherCollectionProps} />
 					))}
