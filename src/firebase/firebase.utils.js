@@ -31,7 +31,8 @@ export const signInWithGoogle = () => auth.signInWithPopup(provider);
 //export full firebase library in case if needed:
 export default firebase;
 
-// that function allows us to take user's object that we get from the auth library
+// that function allows us to create a new user and get its reference or if exists get its reference;
+// function takes as args: user's object that we get from the auth library
 // and then store inside our database: `userAuth` - is the object that we get from auth
 // `additionalData` - the additional data object that we may need later for the signup functionality
 
@@ -57,4 +58,43 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 	}
 
 	return userRef;
+};
+
+export const addCollectionAndDocuments = async (
+	collectionKey,
+	objectsToAdd
+) => {
+	const collectionRef = firestore.collection(collectionKey);
+
+	const batch = firestore.batch();
+	objectsToAdd.forEach((obj) => {
+		//inside each of our collection, we create a new blank doc with automatically generated id
+		const newDocRef = collectionRef.doc();
+
+		// now we loop through objectsToAdd array and batch all .set() calls together
+		batch.set(newDocRef, obj);
+	});
+	try {
+		await batch.commit();
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const convertCollectionsSnapshotToMap = (collectionsSnapshot) => {
+	const transformedCollections = collectionsSnapshot.docs.map((doc) => {
+		const { title, items } = doc.data();
+
+		return {
+			title,
+			items,
+			routeName: encodeURI(title.toLowerCase()),
+			id: doc.id,
+		};
+	});
+
+	return transformedCollections.reduce((accumulator, collection) => {
+		accumulator[collection.title.toLowerCase()] = collection;
+		return accumulator;
+	}, {});
 };

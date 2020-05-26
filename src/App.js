@@ -27,6 +27,7 @@ class App extends Component {
 				//every time the document snapshot is taken, (which always happens when createUserProfileDocument() is called):
 				userRef.onSnapshot((snapshot) => {
 					setCurrentUser({
+						// setting current user in our redux store
 						id: snapshot.id,
 						...snapshot.data(),
 					});

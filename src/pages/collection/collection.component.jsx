@@ -11,14 +11,18 @@ import {
 	CollectionTitle,
 } from "./collection.styles";
 
-const CollectionPage = ({ collection: { title, items } }) => {
+const CollectionPage = ({ collection }) => {
 	return (
 		<CollectionPageContainer>
-			<CollectionTitle>{title} </CollectionTitle>
+			<CollectionTitle>
+				{collection ? collection.title : null}{" "}
+			</CollectionTitle>
 			<CollectionItemsContainer>
-				{items.map((item) => (
-					<CollectionItem key={item.id} item={item} />
-				))}
+				{collection
+					? collection.items.map((item) => (
+							<CollectionItem key={item.id} item={item} />
+					  ))
+					: null}
 			</CollectionItemsContainer>
 		</CollectionPageContainer>
 	);
