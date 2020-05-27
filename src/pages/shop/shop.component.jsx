@@ -24,23 +24,26 @@ class ShopPage extends Component {
 	componentDidMount() {
 		const { updateCollections } = this.props;
 		// subscribe to and fetch our shop data:
+
 		const collectionRef = firestore.collection("collections");
-		this.unsubscribeFromSnapshot = collectionRef.onSnapshot(
-			async (snapshot) => {
+
+		collectionRef
+			.get()
+			.then((snapshot) => {
 				//get collections data from collections snapshot:
-				const collectionsMap = await convertCollectionsSnapshotToMap(
+				const collectionsMap = convertCollectionsSnapshotToMap(
 					snapshot
 				);
 
 				//save new collections data to redux store:
 				updateCollections(collectionsMap);
 				this.setState({ loading: false });
-			}
-		);
+			})
+			.catch((err) => console.log(err.message));
 	}
 
 	componentWillUnmount() {
-		this.unsubscribeFromSnapshot();
+		// this.unsubscribeFromSnapshot();
 	}
 
 	render() {
