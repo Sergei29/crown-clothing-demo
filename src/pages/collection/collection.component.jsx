@@ -14,15 +14,11 @@ import {
 const CollectionPage = ({ collection }) => {
 	return (
 		<CollectionPageContainer>
-			<CollectionTitle>
-				{collection ? collection.title : null}{" "}
-			</CollectionTitle>
+			<CollectionTitle>{collection.title}</CollectionTitle>
 			<CollectionItemsContainer>
-				{collection
-					? collection.items.map((item) => (
-							<CollectionItem key={item.id} item={item} />
-					  ))
-					: null}
+				{collection.items.map((item) => (
+					<CollectionItem key={item.id} item={item} />
+				))}
 			</CollectionItemsContainer>
 		</CollectionPageContainer>
 	);
