@@ -20,13 +20,13 @@ export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
 //set up google auth utility:
-const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({
+export const googleProvider = new firebase.auth.GoogleAuthProvider();
+googleProvider.setCustomParameters({
 	prompt: "select_account", // means we always want to have google popup to select google account to sign in with
 });
 
 //create and export sign in with google to be with popup:
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
+export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
 //export full firebase library in case if needed:
 export default firebase;
@@ -97,4 +97,13 @@ export const convertCollectionsSnapshotToMap = (collectionsSnapshot) => {
 		accumulator[collection.title.toLowerCase()] = collection;
 		return accumulator;
 	}, {});
+};
+
+export const getCurrentUser = () => {
+	return new Promise((resolve, reject) => {
+		const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+			unsubscribe();
+			resolve(userAuth);
+		}, reject);
+	});
 };
